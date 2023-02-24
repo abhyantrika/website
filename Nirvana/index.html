@@ -372,71 +372,72 @@ p {
                     .attr('width', barWidth - 5)
                     .attr('height', d => height - yScale(d.bpp1))
                     .style('fill', color('bpp1'))
-                    .on("mouseover", function (d, i) {
-                        d3.select(this).attr('class', 'highlight');
-                        d3.select(this)
-                          .transition()     // adds animation
-                          .duration(400)
-                          .attr("width", barWidth - 5 + 5)
-                          .attr("y", function(d) { return yScale(d.bpp1) -10; })
-                          .attr("height", function(d) { return height - yScale(d.bpp1) + 10; })
+                    // .on("mouseover", function (d, i) {
+                    //     d3.select(this).attr('class', 'highlight');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5 + 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp1) -10; })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp1) + 10; })
 
-                        bar.append('text')
-                        .text(d => d.bpp1)
-                        .attr('class', 'val')
-                        .attr('text-anchor', 'middle')
-                        .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp1) - 10})`)
+                    //     bar.append('text')
+                    //     .text(d => d.bpp1)
+                    //     .attr('class', 'val')
+                    //     .attr('text-anchor', 'middle')
+                    //     .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp1) - 10})`)
                       
-                    })
-                    .on("mouseout",    function (d, i) {
-                    // use the text label class to remove label on mouseout
-                        d3.select(this).attr('class', 'bar');
-                        d3.select(this)
-                          .transition()     // adds animation
-                          .duration(400)
-                          .attr("width", barWidth - 5)
-                          .attr("y", function(d) { return yScale(d.bpp1); })
-                          .attr("height", function(d) { return height - yScale(d.bpp1); })
+                    // })
+                    // .on("mouseout",    function (d, i) {
+                    // // use the text label class to remove label on mouseout
+                    //     d3.select(this).attr('class', 'bar');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp1); })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp1); })
 
-                        d3.selectAll('.val')
-                        .remove()
-                    }
-                    ) 
+                    //     d3.selectAll('.val')
+                    //     .remove()
+                    // }
+                    // ) 
 
                     bar2.append('rect')
                     .attr('y', d => yScale(d.bpp))
                     .attr('width', barWidth -5)
                     .attr('height', d=> height - yScale(d.bpp))
                     .style('fill', color('bpp'))
-                    .on("mouseover", function (d, i) {
-                        d3.select(this).attr('class', 'highlight');
-                        d3.select(this)
-                          .transition()     // adds animation
-                          .duration(400)
-                          .attr("width", barWidth - 5 + 5)
-                          .attr("y", function(d) { return yScale(d.bpp) -10; })
-                          .attr("height", function(d) { return height - yScale(d.bpp) + 10; })
+                    
+                    // .on("mouseover", function (d, i) {
+                    //     d3.select(this).attr('class', 'highlight');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5 + 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp) -10; })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp) + 10; })
 
-                        bar2.append('text')
-                        .text(d => d.bpp)
-                        .attr('class', 'val')
-                        .attr('text-anchor', 'middle')
-                        .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp) -10})`)               
-                    })
-                    .on("mouseout",    function (d, i) {
-                    // use the text label class to remove label on mouseout
-                        d3.select(this).attr('class', 'bar');
-                        d3.select(this)
-                          .transition()     // adds animation
-                          .duration(400)
-                          .attr("width", barWidth - 5)
-                          .attr("y", function(d) { return yScale(d.bpp); })
-                          .attr("height", function(d) { return height - yScale(d.bpp); })
+                    //     bar2.append('text')
+                    //     .text(d => d.bpp)
+                    //     .attr('class', 'val')
+                    //     .attr('text-anchor', 'middle')
+                    //     .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp) -10})`)               
+                    // })
+                    // .on("mouseout",    function (d, i) {
+                    // // use the text label class to remove label on mouseout
+                    //     d3.select(this).attr('class', 'bar');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp); })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp); })
 
-                        d3.selectAll('.val')
-                        .remove()
-                    }
-                    ) 
+                    //     d3.selectAll('.val')
+                    //     .remove()
+                    // }
+                    // ) 
 
                     p1.append('circle')
                     .attr("cx", function (d) { return xScale(d.group); } )
