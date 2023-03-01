@@ -165,7 +165,7 @@ p {
                         <img src="img/hnerv_epoch.jpg" alt="" width="98%" >
                     </span>       -->                         
                 </div>
-                <p style="text-align:center;">
+                <p class="text-justify">
                   Prior video INR works perform either pixel-wise or frame-wise prediction. We instead perform spatio-temporal patch-wise prediction and fit individual neural networks to groups of frames (clips) which are initialized using
                   networks trained on the previous group. Such an autoregressive
                   patch-wise approach exploits both spatial and temporal redundancies present in videos while promoting scalability and adaptability
@@ -245,12 +245,15 @@ p {
                             <td>0.28 <br><strong>0.27</strong></td>
                         </tr>
                     </table>
-                    <p style="text-align:center;">
+                    <p class="text-justify">
                        <strong>Comparison with video INR approaches on UVG benchmarks.</strong> We vary patch size of NIRVANA on UVG-HD
                         to match the BPP of SIREN and NeRV respectively. NIRVANA
                         achieved much faster encoding and decoding speed, while maintaining better or on-par quality at comparable BPP.
                     </p>
                     
+                    <!-- add a little bit of whitespace between two tables. -->
+                    
+
                   </div>
                   <div class="table-responsive">
                     <h4 align="center">
@@ -286,7 +289,7 @@ p {
                             <td>0.12 <br>0.65</td>
                         </tr>
                     </table>
-                    <p style="text-align:center;">
+                    <p class="text-justify">
                         <strong>Video duration adaptability: </strong>For longer videos, we
                         maintain similar reconstruction quality (∼35 PSNR) and compression rate (∼0.62 BPP). We retain a significantly faster encoding
                         speed than NeRV which suffers from significant degradation with
@@ -864,7 +867,7 @@ p {
                 <div style="margin-bottom: 25px">
                 <!--<img src="Nirvana/images/gpu_scaling_page-0001.jpg" alt="GPU scalability of NIRVANA" width="100%" >-->
                 <br><br>
-                <p style="text-align:center;">
+                <p class="text-justify">
                     <strong>GPU scalability of NIRVANA: </strong>We compare scalability of our approach with NeRV in terms of encoding time with
                     increasing number of GPUs at two video resolutions: 1080p and
                     4K. We scale close to linear for 4K and have much lower overhead
@@ -952,7 +955,7 @@ p {
                       </a>
                     </div>
                   </div>
-                  <h5 align="left" >Ground truth video frame. &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 
+                  <h5 align="center" >Ground truth video frame. &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 
                                 Reconstruction from NIRVANA. &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                     Reconstruction from NeRV.</h5>
                  <br>
