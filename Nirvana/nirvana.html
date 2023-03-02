@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+p {
+  font-size: 15px;
+}
+.bar {
+  opacity: 1;
+}
+.highlight {
+  opacity: 0.5;
+}
+
+</style>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>NIRVANA</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.">
+    <base href="/"> 
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <link rel="icon" type="image/png" href="img/seal_icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <!--<link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110862391-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-110862391-1');
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    
+    <!--<script src="js/app.js"></script>-->
+</head>
+
+<body>
+    <div class="container" id="main" >
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                NIRVANA: Neural Implicit Representations of Videos with Adaptive Networks and Autoregressive Patch-wise Modeling</br> 
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a href="http://cs.umd.edu/~shishira/">
+                          Shishira R Maiya<sup>1, 2*</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://sharath-girish.github.io/">
+                          Sharath Girish<sup>1*</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://maxehr.umiacs.io/">
+                          Max Ehrlich<sup>1</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://hywang66.github.io/">
+                          Hanyu Wang<sup>1</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/kwotsin/">
+                          Kwot Sin Lee<sup>2</sup>
+                        </a>
+                    </li><br>
+                    <li>
+                        <a href="https://www.linkedin.com/in/patrick-poirson-62b53248">
+                          Patrick Poirson<sup>2</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://pxiangwu.github.io/">
+                          Pengxiang Wu<sup>2</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/chen-wang-16251631">
+                          Chen Wang<sup>2</sup>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cs.umd.edu/~abhinav/">
+                          Abhinav Shrivastava<sup>1</sup>
+                        </a>
+                    </li>
+                </ul>
+                <sup>1</sup> University of Maryland, College Park &nbsp;&nbsp;&nbsp;&nbsp;<sup>2</sup> Snap Inc
+                
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    Implicit Neural Representations (INR) have recently
+                    shown to be powerful tool for high-quality video compression. However, existing works are limiting as they do not
+                    explicitly exploit the temporal redundancy in videos, leading to a long encoding time. Additionally, these methods
+                    have fixed architectures which do not scale to longer videos
+                    or higher resolutions. To address these issues, we propose NIRVANA, which treats videos as groups of frames and
+                    fits separate networks to each group performing patch-wise
+                    prediction. The video representation is modeled autoregressively, with networks fit on a current group initialized using
+                    weights from the previous group’s model. To further enhance efficiency, we perform quantization of the network
+                    parameters during training, requiring no post-hoc pruning
+                    or quantization. When compared with previous works on
+                    the benchmark UVG dataset, NIRVANA improves encoding quality from 37.36 to 37.70 (in terms of PSNR) and the
+                    encoding speed by 12x, while maintaining the same compression rate. In contrast to prior video INR works which
+                    struggle with larger resolution and longer videos, we show
+                    that our algorithm is highly flexible and scales naturally
+                    due to its patch-wise and autoregressive designs. Moreover, our method achieves variable bitrate compression by
+                    adapting to videos with varying inter-frame motion. NIRVANA achieves 6x decoding speed and scales well with
+                    more GPUs, making it practical for various deployment
+                    scenarios.</p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">  
+
+                <h3>
+                    1) Overview of NIRVANA
+                </h3><br>
+                <div class="paper" style="float:none; display:inline-block; margin-bottom: 25px;"> 
+                    <span style="position: relative; width: 69%; top: 50%; left: 35%; right: 25%; margin-top: -100px; margin-left: -100px;">
+                        <img src="Nirvana/images/teaser_v3_page-0001.jpg" alt="Overview" width="75%" ><br><br>
+                    </span>
+                        
+                    <!--<span style="float:left;width: 50%;">
+                        <img src="img/hnerv_epoch.jpg" alt="" width="98%" >
+                    </span>       -->                         
+                </div>
+                <p class="text-justify">
+                  Prior video INR works perform either pixel-wise or frame-wise prediction. We instead perform spatio-temporal patch-wise prediction and fit individual neural networks to groups of frames (clips) which are initialized using
+                  networks trained on the previous group. Such an autoregressive
+                  patch-wise approach exploits both spatial and temporal redundancies present in videos while promoting scalability and adaptability
+                  to varying video content, resolution or duration.
+              </p>
+
+
+                <h3>
+                    2) Model architecture
+                </h3><br>
+                <div style="margin-bottom: 25px">
+                <img src="Nirvana/images/arch_v4_page-0001.jpg" width="100%" alt="Model Architecture">
+                </div>
+
+                <!--<h4 align="center">
+                    Balanced parameters
+                </h4>
+
+                <div class="paper" style="float:left; display:inline-block; margin-bottom: 25px;"> 
+                    <span style="float:left;width: 50%;">
+                        <img src="img/parameter_balance.png" alt="" width="98%" >
+                        <p style="text-align:center;">
+                            K: (K<sub>min</sub>, K<sub>max</sub>); &nbsp&nbsp&nbsp&nbsp&nbsp
+                            r = C<sub>out</sub> / C<sub>in</sub>. <br>
+                        We increase kernel sizes and channel withs (smaller r) for higher layers, to balance parameters.
+                        </p>
+                    </span>
+                    <span style="float:left;width: 50%;">
+                        <img src="img/parameter_distribution.jpg" alt="" width="98%" >
+                    </span>                       
+                </div> -->
+
+                <h3>
+                    3) Results
+                </h3>
+                <!--<div style="margin-bottom: 25px">
+                <img src="img/size_epochs_ablatins.png" alt="" width="100%" >
+                </div>
+                <h4 align="center">
+                    Visualization results
+                </h4>                
+                <img src="img/fig5_v0.png" alt="" width="100%" >-->
+                <div class="table-responsive">
+                    <h4 align="center">
+                        Comparison on UVG
+                    </h4>
+                    <table class="table">
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Method</th>
+                            <th>Encoding Time <br>(Hours) ↓</th>
+                            <th>Decoding <br>Speed (FPS) ↑</th>
+                            <th>PSNR ↑</th>
+                            <th>BPP ↓</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"> <br> UVG-HD</td>
+                            <td>SIREN <br><strong>NIRVANA (Ours)</strong></td>
+                            <td>∼30 <br><strong>5.44</strong></td>
+                            <td>15.62 <br><strong>87.91</strong></td>
+                            <td>27.20 <br><strong>34.71</strong></td>
+                            <td><strong>0.28</strong> <br>0.32</td>
+                        </tr>
+                        <tr>
+                            <td>NeRV <br><strong>NIRVANA (Ours)</strong></td>
+                            <td>~80 <br><strong>6.71</strong></td>
+                            <td>11.01 <br><strong>65.42</strong></td>
+                            <td>37.36 <br><strong>37.70</strong></td>
+                            <td>0.92 <br><strong>0.86</strong></td>
+                        </tr>
+                        <tr>
+                            <td>UVG-4K</td>
+                            <td>NeRV <br><strong>NIRVANA (Ours)</strong></td>
+                            <td>~134 <br><strong>20.89</strong></td>
+                            <td>8.27 <br><strong>50.83</strong></td>
+                            <td><strong>35.24</strong><br>35.18</td>
+                            <td>0.28 <br><strong>0.27</strong></td>
+                        </tr>
+                    </table>
+                    <p class="text-justify">
+                       <strong>Comparison with video INR approaches on UVG benchmarks.</strong> We vary patch size of NIRVANA on UVG-HD
+                        to match the BPP of SIREN and NeRV respectively. NIRVANA
+                        achieved much faster encoding and decoding speed, while maintaining better or on-par quality at comparable BPP.
+                    </p>
+                    
+                    <!-- add a little bit of whitespace between two tables. -->
+                    
+
+                  </div>
+                  <div class="table-responsive">
+                    <h4 align="center">
+                        Encoding Time
+                    </h4>
+                    <table class="table">
+                        <tr>
+                            <th>Num <br>Frames</th>
+                            <th>Method</th>
+                            <th>Encoding Time <br>(Hours) ↓</th>
+                            <th>PSNR ↑</th>
+                            <th>BPP ↓</th>
+                        </tr>
+                        <tr>
+                            <td>2000</td>
+                            <td>NeRV <br>NIRVANA (Ours)</td>
+                            <td>84.44 <br>20.85</td>
+                            <td>33.38 <br>35.43</td>
+                            <td>0.22 <br>0.62</td>
+                        </tr>
+                        <tr>
+                            <td>3000</td>
+                            <td>NeRV <br>NIRVANA (Ours)</td>
+                            <td>134.58 <br>31.37</td>
+                            <td>31.6 <br>35.21</td>
+                            <td>0.16 <br>0.64</td>
+                        </tr>
+                        <tr>
+                            <td>4000</td>
+                            <td>NeRV <br>NIRVANA (Ours)</td>
+                            <td>190.30 <br>41.84</td>
+                            <td>30.53 <br>35.15</td>
+                            <td>0.12 <br>0.65</td>
+                        </tr>
+                    </table>
+                    <p class="text-justify">
+                        <strong>Video duration adaptability: </strong>For longer videos, we
+                        maintain similar reconstruction quality (∼35 PSNR) and compression rate (∼0.62 BPP). We retain a significantly faster encoding
+                        speed than NeRV which suffers from significant degradation with
+                        increased number of frames.
+                     </p>
+                  </div>
+
+                <h3>
+                    4) Adaptive Compression
+                </h3>
+              </div>
+              </div>
+      </div>
+
+              <script>
+                var margin = {
+                    top: 50,
+                    right: 50,
+                    bottom: 70,
+                    left: 70
+                };
+                var width = 617 - margin.left - margin.right;
+                var height = 364 - margin.top - margin.bottom;
+                
+                var color = d3.scaleOrdinal(["#ff4040","#00bfbf"]);
+                var color1 = d3.scaleOrdinal(["#23171b","#95fb51"]); 
+
+                var xScale = d3.scaleBand().range([0, width]);
+                var yScale = d3.scaleLinear().range([height, 0]);
+                var dyScale = d3.scaleLinear().range([height, 0]);
+
+
+                var svg = d3.select('body').append('svg')
+                    .attr('width', width + margin.left + margin.right)
+                    .attr('height', height + margin.top + margin.bottom)
+                    .style("display", "block")
+                    .style("margin", "auto")
+                    .append('g')
+                    .attr('transform', `translate(${margin.left}, ${margin.top})`)
+                    
+
+                var data = d3.csvParse('group,bpp1,bpp,psnr1,psnr\nHoneybee,0.8,0.5,40,38.63\nBosphorus,0.8,0.7,38.63,40.45\nBeauty,0.8,0.8,34.54,35.9\nYachtride,0.8,1.0,35.9,38.18\nJockey,0.8,0.9,38.18,37.27\nReadySetGo,0.8,1.3,34.54,35\n');
+
+                    data.forEach(function(d) {
+                        d.score1 = parseInt(d.bpp1);
+                        d.score2 = parseInt(d.bpp);
+                        d.value1 = parseInt(d.psnr1);
+                        d.value2 = parseInt(d.psnr);
+                    });
+
+                    xScale.domain(data.map(d => d.group));
+                    yScale.domain([0, 1.4]);
+                    dyScale.domain([20,45])
+
+                    var barWidth = (width / data.length) /3 ; // bar height equidistant across graph height
+
+                    var bar = svg.selectAll('.bar1')
+                    .data(data, d => d.bpp1)
+                    .enter().append('g')
+                    .attr('transform', (d, i) => `translate(${(i * 3) * barWidth + 5}, 0)`)
+                    .attr('class', 'bar1')
+
+                    var bar2 = svg.selectAll('.bar2')
+                    .data(data, d => d.bpp)
+                    .enter().append('g')
+                    .attr('transform', (d, i) => `translate(${barWidth + (i*barWidth * 3) + 1},0)`)
+                    .attr('class','bar2');
+
+                    var p1 = svg.append('g')
+                    .selectAll('.dot1')
+                    .data(data, d => d.psnr1)
+                    .enter();
+
+                    var p2 = svg.append('g')
+                    .selectAll('.dot2')
+                    .data(data, d => d.psnr)
+                    .enter();
+
+                    bar.append('rect')
+                    .attr('y', function(d) {
+                        return yScale(d.bpp1)
+                    })
+                    .attr('width', barWidth - 5)
+                    .attr('height', d => height - yScale(d.bpp1))
+                    .style('fill', color('bpp1'))
+                    // .on("mouseover", function (d, i) {
+                    //     d3.select(this).attr('class', 'highlight');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5 + 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp1) -10; })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp1) + 10; })
+
+                    //     bar.append('text')
+                    //     .text(d => d.bpp1)
+                    //     .attr('class', 'val')
+                    //     .attr('text-anchor', 'middle')
+                    //     .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp1) - 10})`)
+                      
+                    // })
+                    // .on("mouseout",    function (d, i) {
+                    // // use the text label class to remove label on mouseout
+                    //     d3.select(this).attr('class', 'bar');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp1); })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp1); })
+
+                    //     d3.selectAll('.val')
+                    //     .remove()
+                    // }
+                    // ) 
+
+                    bar2.append('rect')
+                    .attr('y', d => yScale(d.bpp))
+                    .attr('width', barWidth -5)
+                    .attr('height', d=> height - yScale(d.bpp))
+                    .style('fill', color('bpp'))
+                    
+                    // .on("mouseover", function (d, i) {
+                    //     d3.select(this).attr('class', 'highlight');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5 + 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp) -10; })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp) + 10; })
+
+                    //     bar2.append('text')
+                    //     .text(d => d.bpp)
+                    //     .attr('class', 'val')
+                    //     .attr('text-anchor', 'middle')
+                    //     .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp) -10})`)               
+                    // })
+                    // .on("mouseout",    function (d, i) {
+                    // // use the text label class to remove label on mouseout
+                    //     d3.select(this).attr('class', 'bar');
+                    //     d3.select(this)
+                    //       .transition()     // adds animation
+                    //       .duration(400)
+                    //       .attr("width", barWidth - 5)
+                    //       .attr("y", function(d) { return yScale(d.bpp); })
+                    //       .attr("height", function(d) { return height - yScale(d.bpp); })
+
+                    //     d3.selectAll('.val')
+                    //     .remove()
+                    // }
+                    // ) 
+
+                    p1.append('circle')
+                    .attr("cx", function (d) { return xScale(d.group); } )
+                    .attr("cy", function (d) { return dyScale(d.psnr1); } )
+                    .attr("r", 4)
+                    .attr("transform", "translate(" + 27 + "," + 0 + ")")
+                    .style("fill", "#23171b"); 
+
+                    var line1 = d3.line()
+                    .x(function(d) { return xScale(d.group); }) 
+                    .y(function(d) { return dyScale(d.psnr1); }) 
+                    //.curve(d3.curveMonotoneX)
+                
+                    svg.append("path")
+                    .datum(data, d => d.psnr1) 
+                    .attr("class", "line") 
+                    .attr("transform", "translate(" + 27 + "," + 0 + ")")
+                    .attr("d", line1)
+                    .style("fill", "none")
+                    .style("stroke", "#23171b")
+                    .style("stroke-width", "2");
+
+                    p2.append('circle')
+                    .attr("cx", function (d) { return xScale(d.group); } )
+                    .attr("cy", function (d) { return dyScale(d.psnr); } )
+                    .attr("r", 4)
+                    .attr("transform", "translate(" + 27 + "," + 0 + ")")
+                    .style("fill", "#95fb51"); 
+
+                    var line2 = d3.line()
+                    .x(function(d) { return xScale(d.group); }) 
+                    .y(function(d) { return dyScale(d.psnr); }) 
+                    //.curve(d3.curveMonotoneX)
+                
+                    svg.append("path")
+                    .datum(data, d => d.psnr) 
+                    .attr("class", "line") 
+                    .attr("transform", "translate(" + 27 + "," + 0 + ")")
+                    .attr("d", line2)
+                    .style("fill", "none")
+                    .style("stroke", "#95fb51")
+                    .style("stroke-width", "2");
+
+                  /*  bar.append('text')
+                    .text(d => d.bpp1)
+                    .attr('text-anchor', 'middle')
+                    .attr('x', barWidth / 2)
+                    .attr('y', d => yScale(d.bpp1) - 5);
+
+                    bar2.append('text')
+                    .text(d => d.bpp)
+                    .attr('text-anchor', 'middle')
+                    .attr('transform', d => `translate(${barWidth/2},${yScale(d.bpp) -5})`)*/
+
+                    svg.append('g')
+                    .style("font-size","15px")
+                    .attr('transform', `translate(0, ${height})`)
+                    .call(d3.axisBottom(xScale).tickSize(0));
+
+
+                    svg.append('g')
+                    .call(d3.axisLeft(yScale).tickFormat(function(d){
+                        return d;
+                    }).ticks(5))
+
+                    svg.append('g')     
+                    .attr('transform', 'translate(498,0)')
+                    .call(d3.axisRight(dyScale).tickFormat(function(d){
+                        return d;
+                    }).ticks(5))
+                    
+                    /*svg.append('text')
+                    .text('Adaptive Compression')
+                    .style('font-size', '20px')
+                    .attr('transform', `translate(${0 - margin.left}, ${0 - (margin.top/2)})`);*/
+
+                    svg.append('text')
+                    .text('Dynamic Scenes')
+                    .style("font-size","20px")
+                    .attr('text-anchor', 'middle')
+                    .attr('transform', `translate(${width/2}, ${height + (margin.bottom / 2)})`);
+
+                    svg.append('text')
+                    .style("font-size","15px")
+                    .text('Bits-Per-Pixel (BPP)')
+                    .attr('transform', 'rotate(-90)')
+                    .attr('text-anchor', 'middle')
+                    .attr('x', 0 - (height / 2))
+                    .attr('y', 0 - (margin.left / 2))
+
+                    svg.append('text')
+                    .style("font-size","15px")
+                    .text('PSNR (dB)')
+                    .attr('transform', 'rotate(-90)')
+                    .attr('text-anchor', 'middle')
+                    .attr('x', 0 - (height / 2))
+                    .attr('y', 500 + (margin.left / 2))
+
+                    var legend = svg.selectAll('.legend')
+                    .data(color.domain())
+                    .enter()
+                    .append('g')
+                    .attr('class', 'legend')
+
+                    var legendSpacing = 150;
+
+                    var Labels = ["BPP (NeRV)", "BPP (Ours)"]
+
+                    legend.append('text')
+                    .text(function (d, i) {
+                            return Labels[i];
+                        })
+                    .attr('transform', (d, i) => `translate(${i * legendSpacing}, ${height + (margin.bottom - 5)})`)
+
+                    legend.append('rect')
+                    .attr('width', legendSpacing/2)
+                    .attr('height', 5)
+                    .style('fill', color)
+                    .attr('transform', (d, i) => `translate(${i * legendSpacing}, ${height + (margin.bottom - 25)})`)
+
+                    var legend_keys = ["PSNR (NeRV)", "PSNR (Ours)"]
+
+                    var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
+                    .enter().append("g")
+                    .attr("class","lineLegend")
+                    .attr("transform", function (d,i) {
+                        return "translate(" + (margin.left) + "," + (i*20)+")";
+                    });
+
+                    lineLegend.append("text").text(function (d) {return d;})
+                    .attr("transform", "translate(15, 6)"); //align texts with boxes
+
+                    lineLegend.append("rect")
+                    .attr("fill", color1)
+                    .attr("width", 12).attr('height', 5);
+            </script>
+            <div class="container">
+              <div class="row" >
+                <div class="col-md-8 col-md-offset-2">                
+                   <div style="margin-bottom: 25px">
+                 <!-- <img src="Nirvana/images/adaptive_content_page-0001.jpg" alt="ideo content adaptability" width="100%" > -->
+                 <br>
+                  <p style="text-align:center;">
+                    <strong>Video content adaptability: </strong>F6 videos are sorted in
+                    increasing order of variation between subsequent frames. Our
+                    approach shows adaptive bitrate compression, with more static
+                    scenes exhibiting lower BPP, while highly dynamic ones being allocated more bits while maintaining a similar PSNR as NeRV (and
+                    12× encoding speed).
+                 </p>
+                </div>
+                
+
+
+                <h3>
+                    5) GPU Scalability
+                </h3>
+                <!--<h4 align="center">
+                    Embedding interpolation results
+                </h4> -->
+              </div>
+            </div>
+          </div>
+
+                <script>
+                  var margin = {
+                      top: 50,
+                      right: 50,
+                      bottom: 70,
+                      left: 70
+                  };
+                  var width = 617 - margin.left - margin.right;
+                  var height = 364 - margin.top - margin.bottom;
+                  
+                  var color = d3.scaleOrdinal(d3.schemeCategory10);
+          
+                  var xScale = d3.scaleBand().range([0, width]);
+                  var yScale = d3.scaleLinear().range([height, 0]);
+          
+                  var svg = d3.select('body').append('svg')
+                      .attr('width', width + margin.left + margin.right)
+                      .attr('height', height + margin.top + margin.bottom)
+                      .style("display", "block")
+                      .style("margin", "auto")
+                      .append('g')
+                      .attr('transform', `translate(${margin.left}, ${margin.top})`)
+                      
+          
+                  var data = d3.csvParse('group,nerv4k,nervhd,nirvana4k,nirvanahd,n1,n2,n3,n4\nGPU: 1,130,80,20,10,1.0x,1.0x,1.0x,1.0x\nGPU: 2,77,50,10,5,1.7x,1.7x,2.0x,1.7x\nGPU: 4,55,30,10,5,2.4x,2.7x,3.8x,3.3x\nGPU: 8,30,15,4,2,4.3x,4.2x,7.3x,5.8x\n');
+          
+                      data.forEach(function(d) {
+                          d.NeRV4K = parseInt(d.nerv4k);
+                          d.NeRVHD = parseInt(d.nervhd);
+                          d.NIRVANA4K = parseInt(d.nirvana4k);
+                          d.NIRVANAHD = parseInt(d.nirvanahd);
+                          d.value1 = parseFloat(d.n1);
+                          d.value2 = parseFloat(d.n2);
+                          d.value3 = parseFloat(d.n3);
+                          d.value4 = parseFloat(d.n4);
+          
+                      });
+          
+                      xScale.domain(data.map(d => d.group));
+                      yScale.domain([0, 140]);
+          
+                      var barWidth = (width / data.length) /4; // bar height equidistant across graph height
+          
+                      var bar = svg.selectAll('.bar1')
+                      .data(data, d => d.NeRV4K)
+                      .enter().append('g')
+                      .attr('transform', (d, i) => `translate(${(i * 4) * barWidth + 5}, 0)`)
+                      .attr('class', 'bar1')
+          
+                      var bar2 = svg.selectAll('.bar2')
+                      .data(data, d => d.NeRVHD)
+                      .enter().append('g')
+                      .attr('transform', (d, i) => `translate(${barWidth + (i*barWidth * 4) + 1},0)`)
+                      .attr('class','bar2');
+          
+                      var bar3 = svg.selectAll('.bar3')
+                      .data(data, d => d.NIRVANA4K)
+                      .enter().append('g')
+                      .attr('transform', (d, i) => `translate(${(barWidth * 2) + (i*barWidth * 4) - 3},0)`)
+                      .attr('class','bar3');
+          
+                      var bar4 = svg.selectAll('.bar4')
+                      .data(data, d => d.NIRVANAHD)
+                      .enter().append('g')
+                      .attr('transform', (d, i) => `translate(${(barWidth * 3) + (i*barWidth * 4) - 7},0)`)
+                      .attr('class','bar4');
+          
+                      bar.append('rect')
+                      .attr('y', function(d) {
+                          return yScale(d.NeRV4K)
+                      })
+          
+                      .attr('width', barWidth - 5)
+                      .attr('height', d => height - yScale(d.NeRV4K))
+                      .style('fill', color('NeRV4K'))
+                      .on("mouseover", function (d, i, d1) {
+                          d3.select(this).attr('class', 'highlight');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5 + 5)
+                            .attr("y", function(d) { return yScale(d.NeRV4K) -10; })
+                            .attr("height", function(d) { return height - yScale(d.NeRV4K) + 10; })
+          
+                          bar.append('text')
+                          .text(d => d.value1 + 'x')
+                          .attr('class', 'val')
+                          .attr('text-anchor', 'middle')
+                          .attr('transform', d => `translate(${barWidth/2},${yScale(d.NeRV4K) - 10})`)
+                         
+                      })
+                      .on("mouseout",    function (d, i) {
+                      // use the text label class to remove label on mouseout
+                          d3.select(this).attr('class', 'bar');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5)
+                            .attr("y", function(d) { return yScale(d.NeRV4K); })
+                            .attr("height", function(d) { return height - yScale(d.NeRV4K); })
+          
+                          d3.selectAll('.val')
+                          .remove()
+                      }
+                      ) 
+          
+                      bar2.append('rect')
+                      .attr('y', d => yScale(d.NeRVHD))
+                      .attr('width', barWidth -5)
+                      .attr('height', d=> height - yScale(d.NeRVHD))
+                      .style('fill', color('NeRVHD'))
+                      .on("mouseover", function (d, i) {
+                          d3.select(this).attr('class', 'highlight');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5 + 5)
+                            .attr("y", function(d) { return yScale(d.NeRVHD) -10; })
+                            .attr("height", function(d) { return height - yScale(d.NeRVHD) + 10; })
+          
+                          bar2.append('text')
+                          .text(d => d.value2 + 'x')
+                          .attr('class', 'val')
+                          .attr('text-anchor', 'middle')
+                          .attr('transform', d => `translate(${barWidth/2},${yScale(d.NeRVHD) -10})`)               
+                      })
+                      .on("mouseout",    function (d, i) {
+                      // use the text label class to remove label on mouseout
+                          d3.select(this).attr('class', 'bar');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5)
+                            .attr("y", function(d) { return yScale(d.NeRVHD); })
+                            .attr("height", function(d) { return height - yScale(d.NeRVHD); })
+          
+                          d3.selectAll('.val')
+                          .remove()
+                      }
+                      ) 
+          
+                      bar3.append('rect')
+                      .attr('y', d => yScale(d.NIRVANA4K))
+                      .attr('width', barWidth -5)
+                      .attr('height', d=> height - yScale(d.NIRVANA4K))
+                      .style('fill', color('NIRVANA4K'))
+                      .on("mouseover", function (d, i) {
+                          d3.select(this).attr('class', 'highlight');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5 + 5)
+                            .attr("y", function(d) { return yScale(d.NIRVANA4K) - 10; })
+                            .attr("height", function(d) { return height - yScale(d.NIRVANA4K) + 10; })
+          
+                          bar2.append('text')
+                          .text(d => d.value3 + 'x')
+                          .attr('class', 'val')
+                          .attr('text-anchor', 'middle')
+                          .attr('transform', d => `translate(${barWidth/2 + 27},${yScale(d.NIRVANA4K) -10})`)               
+                      })
+                      .on("mouseout",    function (d, i) {
+                      // use the text label class to remove label on mouseout
+                          d3.select(this).attr('class', 'bar');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5)
+                            .attr("y", function(d) { return yScale(d.NIRVANA4K); })
+                            .attr("height", function(d) { return height - yScale(d.NIRVANA4K); })
+          
+                          d3.selectAll('.val')
+                          .remove()
+                      }
+                      ) 
+          
+                      bar4.append('rect')
+                      .attr('y', d => yScale(d.NIRVANAHD))
+                      .attr('width', barWidth -5)
+                      .attr('height', d=> height - yScale(d.NIRVANAHD))
+                      .style('fill', color('NIRVANAHD'))
+                      .on("mouseover", function (d, i) {
+                          d3.select(this).attr('class', 'highlight');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5 + 5)
+                            .attr("y", function(d) { return yScale(d.NIRVANAHD) -10; })
+                            .attr("height", function(d) { return height - yScale(d.NIRVANAHD) + 10; })
+          
+                          bar2.append('text')
+                          .text(d => d.value4 + 'x')
+                          .attr('class', 'val')
+                          .attr('text-anchor', 'middle')
+                          .attr('transform', d => `translate(${barWidth/2 + 55},${yScale(d.NIRVANAHD) -10})`)               
+                      })
+                      .on("mouseout",    function (d, i) {
+                      // use the text label class to remove label on mouseout
+                          d3.select(this).attr('class', 'bar');
+                          d3.select(this)
+                            .transition()     // adds animation
+                            .duration(400)
+                            .attr("width", barWidth - 5)
+                            .attr("y", function(d) { return yScale(d.NIRVANAHD); })
+                            .attr("height", function(d) { return height - yScale(d.NIRVANAHD); })
+          
+                          d3.selectAll('.val')
+                          .remove()
+                      }
+                      ) 
+          
+                      svg.append('g')
+                      .style("font-size","15px")
+                      .attr('transform', `translate(0, ${height})`)
+                      .call(d3.axisBottom(xScale).tickSize(0));
+          
+                      svg.append('g')
+                      .call(d3.axisLeft(yScale).tickFormat(function(d){
+                          return d;
+                      }).ticks(5))
+                      
+                      svg.append('text')
+                      .text('Encoding Time vs GPUs')
+                      .style('font-size', '20px')
+                      .attr('transform', `translate(${0 - margin.left}, ${0 - (margin.top/2)})`);
+          
+                      /*svg.append('text')
+                      .text('Dynamic Scenes')
+                      .attr('text-anchor', 'middle')
+                      .attr('transform', `translate(${width/2}, ${height + (margin.bottom / 2)})`);*/
+          
+                      svg.append('text')
+                      .text('Encoding Time (hrs)')
+                      .attr('transform', 'rotate(-90)')
+                      .attr('text-anchor', 'middle')
+                      .attr('x', 0 - (height / 2))
+                      .attr('y', 0 - (margin.left / 2))
+          
+                      var legend = svg.selectAll('.legend')
+                      .data(color.domain())
+                      .enter()
+                      .append('g')
+                      .attr('class', 'legend')
+          
+                      var legendSpacing = 150;
+          
+                      legend.append('text')
+                      .text(d => d)
+                      .attr('transform', (d, i) => `translate(${i * legendSpacing}, ${height + (margin.bottom)})`)
+          
+                      legend.append('rect')
+                      .attr('width', legendSpacing/2)
+                      .attr('height', 5)
+                      .style('fill', color)
+                      .attr('transform', (d, i) => `translate(${i * legendSpacing}, ${height + (margin.bottom - 25)})`)
+          
+              </script>
+              <div class="container">
+                <div class="row" >
+                  <div class="col-md-8 col-md-offset-2"> 
+                <div style="margin-bottom: 25px">
+                <!--<img src="Nirvana/images/gpu_scaling_page-0001.jpg" alt="GPU scalability of NIRVANA" width="100%" >-->
+                <br><br>
+                <p class="text-justify">
+                    <strong>GPU scalability of NIRVANA: </strong>We compare scalability of our approach with NeRV in terms of encoding time with
+                    increasing number of GPUs at two video resolutions: 1080p and
+                    4K. We scale close to linear for 4K and have much lower overhead
+                    compared to NeRV for both resolutions.
+                 </p>
+                </div>
+
+                <h3>
+                    6) Visual Results
+                </h3><br>
+                <!--<h4 align="center">
+                    Overall results on UVG dataset
+                </h4>                      
+                <div style="margin-bottom: 25px">
+                <img src="img/hnerv_uvg.jpg" alt="" width="100%" >
+                </div>
+                <h4 align="center">
+                    Best & owrst cases on UVG dataset
+                </h4>                      
+                <div style="margin-bottom: 25px">
+                <img src="img/hnerv_best_worst.jpg" alt="" width="100%" >
+                </div> -->
+
+                <!--<h3>
+                    6) Video inpainting
+                </h3>
+                <div style="margin-bottom: 25px">
+                <img src="img/inpaint_swan_short.jpg" alt="" width="100%" >
+                <img src="img/cows-inpaint.jpg" alt="" width="100%" >
+                <p class="text-justify" style="font-size:20px;">
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; HNeRV input &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; HNeRV output
+                </p>                
+                </div> -->
+            </div>
+        </div>
+
+        <div class="row"  >
+          <div class="col-md-12 col-md">
+                <!--Beauty-->
+                  <div class="container" > 
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel" style="display: block; float: left;">
+                      <!-- Indicators -->
+                      <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                      </ol>
+                  
+                      <!-- Wrapper for slides -->
+                      <div class="carousel-inner" >
+                        <div class="item active">
+                          <img src="Nirvana/images/beauty.jpg" alt="Ground truth video frame" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                          </div>
+                        </div>
+                  
+                        <div class="item">
+                          <img src="Nirvana/images/twilight.jpg" alt="Reconstruction from NIRVANA" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                          </div>
+                        </div>
+
+                        <div class="item">
+                          <img src="Nirvana/images/cityvalley.jpg" alt="Reconstruction from NIRVANA" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                          </div>
+                        </div>
+                      
+                        <div class="item">
+                          <img src="Nirvana/images/riverbank.jpg" alt="Reconstruction from NeRV" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Left and right controls -->
+                      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+                  </div>
+                  <h5 align="center" >Ground truth video frame. &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 
+                                Reconstruction from NIRVANA. &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    Reconstruction from NeRV.</h5>
+                 <br>
+                  
+                  
+                <!--Riverbank        
+                  <div class="container" style="width: 100%;"> 
+                    <div id="riverbank" class="carousel slide" data-ride="carousel">
+                      <ol class="carousel-indicators">
+                        <li data-target="#riverbank" data-slide-to="0" class="active"></li>
+                        <li data-target="#riverbank" data-slide-to="1"></li>
+                        <li data-target="#riverbank" data-slide-to="2"></li>
+                      </ol>
+                  
+                      <div class="carousel-inner" >
+                        <div class="item active">
+                          <img src="images/gt-cropped_page-0001-riverbank.jpg" alt="Ground truth video frame" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left">Ground truth video frame.</h5>
+                          </div>
+                        </div>
+                  
+                        <div class="item">
+                          <img src="images/ours-cropped_page-0001-riverbank.jpg" alt="Reconstruction from NIRVANA" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left"> Reconstruction from NIRVANA.</h5>
+                          </div>
+                        </div>
+                      
+                        <div class="item">
+                          <img src="images/nerv-cropped_page-0001-riverbank.jpg" alt="Reconstruction from NeRV" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left">Reconstruction from NeRV.</h5>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <a class="left carousel-control" href="#riverbank" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="right carousel-control" href="#riverbank" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+                  </div> <br><br>
+
+                Flowerkids  
+                <div class="container" style="width: 100%;"> 
+                    <div id="flowerkids" class="carousel slide" data-ride="carousel">
+                       Indicators 
+                      <ol class="carousel-indicators">
+                        <li data-target="#flowerkids" data-slide-to="0" class="active"></li>
+                        <li data-target="#flowerkids" data-slide-to="1"></li>
+                        <li data-target="#flowerkids" data-slide-to="2"></li>
+                      </ol>
+                  
+                       Wrapper for slides 
+                      <div class="carousel-inner" >
+                        <div class="item active">
+                          <img src="images/gt-cropped_page-0001-flowerkids.jpg" alt="Ground truth video frame" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left">Ground truth video frame.</h5>
+                          </div>
+                        </div>
+                  
+                        <div class="item">
+                          <img src="images/ours-cropped_page-0001-flowerkids.jpg" alt="Reconstruction from NIRVANA" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left"> Reconstruction from NIRVANA.</h5>
+                          </div>
+                        </div>
+                      
+                        <div class="item">
+                          <img src="images/nerv-cropped_page-0001-flowerkids.jpg" alt="Reconstruction from NeRV" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left">Reconstruction from NeRV.</h5>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <a class="left carousel-control" href="#flowerkids" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="right carousel-control" href="#flowerkids" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+                  </div> <br><br>
+
+                  Twilight  
+                  <div class="container" style="width: 100%;"> 
+                    <div id="twilight" class="carousel slide" data-ride="carousel">
+
+                      <ol class="carousel-indicators">
+                        <li data-target="#twilight" data-slide-to="0" class="active"></li>
+                        <li data-target="#twilight" data-slide-to="1"></li>
+                        <li data-target="#twilight" data-slide-to="2"></li>
+                      </ol>
+                  
+                      <div class="carousel-inner" >
+                        <div class="item active">
+                          <img src="images/gt-cropped_page-0001-twilight.jpg" alt="Ground truth video frame" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left">Ground truth video frame.</h5>
+                          </div>
+                        </div>
+                  
+                        <div class="item">
+                          <img src="images/ours-cropped_page-0001-twilight.jpg" alt="Reconstruction from NIRVANA" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left"> Reconstruction from NIRVANA.</h5>
+                          </div>
+                        </div>
+                      
+                        <div class="item">
+                          <img src="images/nerv-cropped_page-0001-twilight.jpg" alt="Reconstruction from NeRV" style="width:100%;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <h5 align="left">Reconstruction from NeRV.</h5>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <a class="left carousel-control" href="#twilight" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="right carousel-control" href="#twilight" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+                  </div>-->
+            </div>
+        </div>
+
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                   7) Citation
+                </h3>
+       <div class="form-group col-md-10 col-md-offset-1">
+    <textarea id="bibtex" class="form-control" rows="10" readonly>
+        @misc{https://doi.org/10.48550/arxiv.2212.14593,
+            doi = {10.48550/ARXIV.2212.14593},
+            
+            url = {https://arxiv.org/abs/2212.14593},
+            
+            author = {Maiya, Shishira R and Girish, Sharath and Ehrlich, Max and Wang, Hanyu and Lee, Kwot Sin and Poirson, Patrick and Wu, Pengxiang and Wang, Chen and Shrivastava, Abhinav},
+            
+            keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+            
+            title = {NIRVANA: Neural Implicit Representations of Videos with Adaptive Networks and Autoregressive Patch-wise Modeling},
+            
+            publisher = {arXiv},
+            
+            year = {2022},
+            
+            copyright = {arXiv.org perpetual, non-exclusive license}
+          }
+          
+    </textarea>
+                 </div> 
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <br> The website template was borrowed from <a href="https://bmild.github.io">Ben Mildenhall</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
